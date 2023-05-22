@@ -70,7 +70,7 @@ app.get("/payment/ready", async (req, res) => {
   if (req.headers["user-agent"].includes("Mobile")) {
     res.redirect(next_redirect_mobile_url);
   } else if (req.headers["user-agent"].includes("Intel")) {
-    res.redirect(next_redirect_pc_url);
+    res.json(next_redirect_pc_url);
   }
 });
 
