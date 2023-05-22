@@ -3,9 +3,12 @@ import express from "express";
 import path from "path";
 import fetch from "node-fetch";
 import morgan from "morgan";
-import os from "os";
 import fs from "fs";
+import cors from "cors";
+
 const app = express();
+
+app.use(cors());
 
 app.use(morgan("tiny"));
 app.use(express.static(path.resolve(__dirname, "public")));
@@ -41,10 +44,11 @@ app.get("/payment/ready", async (req, res) => {
 
   const {
     next_redirect_pc_url,
-    tid /* next_redirect_app_url,
-      next_redirect_mobile_url,
-      android_app_scheme,
-      ios_app_scheme, */,
+    tid,
+    next_redirect_app_url,
+    next_redirect_mobile_url,
+    android_app_scheme,
+    ios_app_scheme,
   } = await response.json();
 
   let writeStream: fs.WriteStream;
@@ -54,13 +58,18 @@ app.get("/payment/ready", async (req, res) => {
       flags: "w",
     });
     writeStream.write(`tid=${tid}`);
+    writeStream.end();
   } catch (err) {
     console.log(err);
-  } finally {
-    writeStream.end();
   }
 
-  if (os.platform() === "darwin") {
+  if (!req.headers["user-agent"]) {
+    throw new Error("none");
+  }
+
+  if (req.headers["user-agent"].includes("Mobile")) {
+    res.redirect(next_redirect_mobile_url);
+  } else if (req.headers["user-agent"].includes("Intel")) {
     res.redirect(next_redirect_pc_url);
   }
 });

@@ -4,3 +4,4 @@ build/
 .DS_Store
 static/
 .env
+payment.txt
