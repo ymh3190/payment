@@ -17,7 +17,7 @@ app.use("/dist", express.static("dist"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.get("/payment/ready", async (req, res) => {
+app.get("/kakao/payment/ready", async (req, res) => {
   const config = {
     cid: "TC0ONETIME",
     partner_order_id: "123",
@@ -26,7 +26,7 @@ app.get("/payment/ready", async (req, res) => {
     quantity: "1",
     total_amount: "1000",
     tax_free_amount: "100",
-    approval_url: `http://localhost:${process.env.PORT}/payment/approve`,
+    approval_url: `http://localhost:${process.env.PORT}/kakao/payment/approve`,
     cancel_url: `http://localhost:${process.env.PORT}`,
     fail_url: `http://localhost:${process.env.PORT}`,
   };
@@ -74,7 +74,7 @@ app.get("/payment/ready", async (req, res) => {
   }
 });
 
-app.get("/payment/approve", async (req, res) => {
+app.get("/kakao/payment/approve", async (req, res) => {
   const {
     query: { pg_token },
   } = req;

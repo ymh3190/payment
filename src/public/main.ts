@@ -1,10 +1,10 @@
-const paymentFormDOM = document.querySelector(".payment-form");
+const kakaoPaymentFormDOM = document.querySelector(".payment-form");
 const kakaoPay = document.getElementById("kakaoPay") as HTMLButtonElement;
 
-if (paymentFormDOM) {
-  paymentFormDOM.addEventListener("submit", async (e) => {
+if (kakaoPaymentFormDOM) {
+  kakaoPaymentFormDOM.addEventListener("submit", async (e) => {
     e.preventDefault();
-    const response = await fetch("/payment/ready");
+    const response = await fetch("/kakao/payment/ready");
     const url = await response.json();
     window.location = url;
   });
