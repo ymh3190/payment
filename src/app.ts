@@ -18,6 +18,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.get("/kakao/payment/ready", async (req, res) => {
+  // 결제 api 테스트
   const config = {
     cid: "TC0ONETIME",
     partner_order_id: "123",
@@ -67,9 +68,15 @@ app.get("/kakao/payment/ready", async (req, res) => {
     throw new Error("none");
   }
 
-  if (req.headers["user-agent"].includes("Mobile")) {
+  const userAgent = req.headers["user-agent"];
+  const isMobile = userAgent.includes("Mobile");
+  const isPC = userAgent.includes("Intel") || userAgent.includes("Windows");
+
+  if (isMobile) {
+    // client-> (http, method:get) -> server  -> (http, method:post) -> kakaopay server
     res.redirect(next_redirect_mobile_url);
-  } else if (req.headers["user-agent"].includes("Intel")) {
+  } else if (isPC) {
+    // client -> (js, fetch, method:get) -> server -> (http, method:post) -> kakaopay server
     res.json(next_redirect_pc_url);
   }
 });

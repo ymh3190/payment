@@ -1,4 +1,4 @@
-const kakaoPaymentFormDOM = document.querySelector(".payment-form");
+const kakaoPaymentFormDOM = document.querySelector(".kakao-payment-form");
 const kakaoPay = document.getElementById("kakaoPay") as HTMLButtonElement;
 
 if (kakaoPaymentFormDOM) {
