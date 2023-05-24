@@ -2,15 +2,15 @@ import "dotenv/config";
 import express from "express";
 import path from "path";
 import fetch from "node-fetch";
-import morgan from "morgan";
 import fs from "fs";
 import cors from "cors";
+import morgan from "morgan";
 
 const app = express();
 
 app.use(cors());
 
-app.use(morgan("tiny"));
+app.use(morgan("dev"));
 app.use(express.static(path.resolve(__dirname, "public")));
 app.use("/static", express.static("static"));
 app.use("/dist", express.static("dist"));
